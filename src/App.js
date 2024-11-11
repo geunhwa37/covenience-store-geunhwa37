@@ -75,9 +75,16 @@ class Receipt {
 // InputView 클래스: 사용자의 입력을 처리
 class InputView {
   static async readProduct() {
-    const input = await Console.readLineAsync("구매하실 상품명과 수량을 입력해 주세요. (예: [사이다-2],[감자칩-1]");
-    const [name, quantity] = input.split('-');
-    return { name, quantity: Number(quantity) };
+    const input = await Console.readLineAsync("구매할 상품명과 수량을 입력해주세요 (예: [사이다-2],[감자칩-1]): ");
+    return input.match(/\[(\w+)-(\d+)\]/g).map(item => {
+      const [name, quantity] = item.slice(1, -1).split('-');
+      return { name, quantity: Number(quantity) };
+    });
+  }
+
+  static async readYesNo(message) {
+    const response = await Console.readLineAsync(message + " (Y/N): ");
+    return response.toUpperCase() === 'Y';
   }
 }
 
