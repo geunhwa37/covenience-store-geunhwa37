@@ -32,6 +32,21 @@ class Product {
   }
 }
 
+// Cart 클래스: 장바구니에 항목을 추가하고 총합을 계산
+class Cart {
+  constructor() {
+    this.items = [];
+  }
+
+  // 장바구니에 상품 추가 메서드
+  addItem(product, quantity) {
+    if (!product.hasSufficientStock(quantity)) {
+      throw new Error('재고가 부족합니다.'); // 재고 부족 시 예외 처리
+    }
+    this.items.push({ product, quantity });
+  }
+
+
 
 
 class App {
