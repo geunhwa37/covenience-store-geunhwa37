@@ -1,7 +1,6 @@
-import { Console, DateTimes } from '@woowacourse/mission-utils';
-import fs from 'fs';
+const { Console, DateTimes } = require('@woowacourse/mission-utils');
+const fs = require('fs');
 
-class App {
   // Product 클래스: 상품의 이름, 가격, 재고, 프로모션을 관리
   class Product {
     constructor(name, price, stock, promotion = null) {
@@ -102,7 +101,6 @@ class App {
       receipt.forEach(line => Console.print(line));
     }
   }
-
   // App 클래스: 프로그램의 실행 제어
   class App {
     constructor() {
@@ -111,8 +109,8 @@ class App {
     }
 
     loadProducts() {
-      const productData = fs.readFileSync('public/products.md', 'utf-8').split('\n');
-      const promotionData = fs.readFileSync('public/promotions.md', 'utf-8').split('\n');
+      const productData = fs.readFileSync('../public/products.md', 'utf-8').split('\n');
+      const promotionData = fs.readFileSync('../public/promotions.md', 'utf-8').split('\n');
       return productData.map(line => {
         const [name, price, stock] = line.split(',');
         const promotion = promotionData.find(promo => promo.includes(name));
@@ -120,7 +118,6 @@ class App {
         return new Product(name, Number(price), Number(stock), promoDetails);
       });
     }
-  }
 
   async run() {
     OutputView.printProducts(this.products.map(product => ({
@@ -161,10 +158,11 @@ class App {
     else Console.print("구매가 종료되었습니다. 감사합니다.");
   }
 
-
-
-
 }
+
+
+
+
 
 
 export default App;
