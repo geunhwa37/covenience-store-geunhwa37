@@ -58,6 +58,20 @@ class Cart {
   }
 }
 
+// Receipt 클래스: 장바구니 정보를 바탕으로 영수증 생성
+class Receipt {
+  static generate(cart, discounts) {
+    const receiptLines = cart.getItems().map(({ product, quantity }) => {
+      return `${product.name}\t${quantity}\t${product.calculatePrice(quantity)}원`;
+    });
+    receiptLines.push(`총구매액\t${cart.getTotal()}원`);
+    receiptLines.push(`행사할인\t-${discounts.promotion}원`);
+    receiptLines.push(`멤버십할인\t-${discounts.membership}원`);
+    receiptLines.push(`내실돈\t${cart.getTotal() - discounts.promotion - discounts.membership}원`);
+    return receiptLines;
+  }
+}
+
 // InputView 클래스: 사용자의 입력을 처리
 class InputView {
   static async readProduct() {
