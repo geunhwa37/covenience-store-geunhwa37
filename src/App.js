@@ -51,6 +51,11 @@ class Cart {
     return this.items.reduce((total, { product, quantity }) => total + product.calculatePrice(quantity), 0);
   }
 
+  // 장바구니에 담긴 아이템 반환 메서드
+  getItems() {
+    return this.items;
+  }
+
 
 
 
