@@ -122,7 +122,49 @@ class App {
     }
   }
 
-  async run() {}
+  async run() {
+    OutputView.printProducts(this.products.map(product => ({
+      product,
+      stockStatus: product.stock > 0 ? `${product.stock}개 ${product.promotion ? '프로모션' : ''}` : '재고 없음',
+    })));
+
+    const itemsToBuy = await InputView.readProduct();
+
+    itemsToBuy.forEach(({ name, quantity }) => {
+      const product = this.products.find(prod => prod.name === name);
+      if (!product) {
+        throw new Error('[ERROR] 존재하지 않는 상품입니다. 다시 입력해 주세요.');
+      }
+
+      // 프로모션 혜택 확인
+      if (product.promotion && quantity < product.promotion.requiredQuantity) {
+        const addPromotion = await InputView.readYesNo(`현재 ${name}은(는) 1개를 무료로 더 받을 수 있습니다. 추가하시겠습니까?`);
+        if (addPromotion) quantity += 1;
+      }
+
+      // 장바구니에 추가
+      this.cart.addItem(product, quantity);
+    });
+
+    const applyMembershipDiscount = await InputView.readYesNo('멤버십 할인을 받으시겠습니까?');
+
+    const discounts = {
+      promotion: 1000,
+      membership: applyMembershipDiscount ? 3000 : 0
+    };
+
+    const receipt = Receipt.generate(this.cart, discounts);
+    OutputView.printReceipt(receipt);
+
+    const additionalPurchase = await InputView.readYesNo('감사합니다. 구매하고 싶은 다른 상품이 있나요?');
+    if (additionalPurchase) this.run();
+    else Console.print("구매가 종료되었습니다. 감사합니다.");
+  }
+
+
+
+
 }
+
 
 export default App;
