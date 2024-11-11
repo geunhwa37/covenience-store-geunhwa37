@@ -26,6 +26,12 @@ class Product {
     return this.price * quantity;
   }
 
+  // 재고 확인 메서드
+  hasSufficientStock(quantity) {
+    return this.stock >= quantity;
+  }
+}
+
 
 
 class App {
