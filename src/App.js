@@ -88,6 +88,20 @@ class InputView {
   }
 }
 
+// OutputView 클래스: 출력 담당
+class OutputView {
+  static printProducts(products) {
+    Console.print("안녕하세요. W편의점입니다.\n현재 보유하고 있는 상품입니다.");
+    products.forEach(({ product, stockStatus }) => {
+      Console.print(`- ${product.name} ${product.price}원 ${stockStatus}`);
+    });
+  }
+
+  static printReceipt(receipt) {
+    receipt.forEach(line => Console.print(line));
+  }
+}
+
 
 class App {
   async run() {}
