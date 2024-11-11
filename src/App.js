@@ -46,6 +46,11 @@ class Cart {
     this.items.push({ product, quantity });
   }
 
+  // 장바구니 총합 계산 메서드
+  getTotal() {
+    return this.items.reduce((total, { product, quantity }) => total + product.calculatePrice(quantity), 0);
+  }
+
 
 
 
