@@ -1,4 +1,5 @@
 import { Console, DateTimes } from '@woowacourse/mission-utils';
+import fs from 'fs';
 
 // Product 클래스: 상품의 이름, 가격, 재고, 프로모션을 관리
 class Product {
@@ -41,7 +42,7 @@ class Cart {
   // 장바구니에 상품 추가 메서드
   addItem(product, quantity) {
     if (!product.hasSufficientStock(quantity)) {
-      throw new Error('재고가 부족합니다.'); // 재고 부족 시 예외 처리
+      throw new Error('[ERROR] 재고 수량을 초과하여 구매할 수 없습니다.'); //재고 부족 시 예외 처리
     }
     this.items.push({ product, quantity });
   }
@@ -65,7 +66,6 @@ class InputView {
     return { name, quantity: Number(quantity) };
   }
 }
-
 
 
 class App {
